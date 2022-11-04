@@ -2,14 +2,24 @@
     width: 30%;
 }
 .tresServ {
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 .tresServ div{
-    height: 200px;
-    width: 500px;
+    height: 302px;
+    display: flex;
+    width: 302px;
+    justify-content: flex-end;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 .tresImgagens{
 width: 200px;
 }
+.servicios{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;}
