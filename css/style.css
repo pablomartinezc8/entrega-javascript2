@@ -1,0 +1,15 @@
+.card-img-top {
+    width: 30%;
+}
+.tresServ {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.tresServ div{
+    height: 200px;
+    width: 500px;
+}
+.tresImgagens{
+width: 200px;
+}
