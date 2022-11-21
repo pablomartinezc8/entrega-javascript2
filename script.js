@@ -1,178 +1,164 @@
-           // OBJETOS
-let libro = Number(prompt("elija un producto 1-libro1 2-libro2 3-libro3 4-libro4 5-libro5 6-libro6" ))
-let cantidad = Number(prompt("elija la cantidad de productos"))
-let total = 0
-const libros =[]
-class Libro{
-    constructor(nombre,precio,stock,) {
-        this.nombre=nombre;
-        this.precio=parseFloat(precio);
-        this.stock=stock;
-        
-        
-    }
-    mostrar(){
-    total=total +(this.precio*cantidad)
-    console.log("soy el produco: "+ this.nombre);
-    console.log("valor por unidad; $"+ this.precio)
-    console.log("cantidad de libros: "+ cantidad);
-    console.log("total: $"+ total)
-    }
-}
-     const libro1 = new Libro("libro1",1000,30,);
-     const libro2 = new Libro("libro2",2000,20,);
-     const libro3 = new Libro("libro3",3000,10,);
-     const libro4 = new Libro("libro4",4000,70,);
-     const libro5 = new Libro("libro5",5000,40,);
-     const libro6 = new Libro("libro6",6000,33,);
+const shopContent = document.getElementById("shopContent")
+const verCarrito=document.getElementById("verCarrito")
+const modalContainer=document.getElementById("modal-container")
+let cantidad=0
+const productos=[
+   {
+   cantidad:0,
+   id:1,
+   nombre:"libro1",
+   precio: 1000,
+   img: "https://res.cloudinary.com/dur9hgubk/image/upload/v1666292525/proyectoFinal/149303297f0928113fecfea5d8314ed0_hh86ar.webp"
+   },
+   {
+      cantidad:0,
+      id:2,
+   nombre:"libro2",
+   precio: 2000,
+   img: "https://res.cloudinary.com/dur9hgubk/image/upload/v1666292060/proyectoFinal/eff19435e8d8fac15d6e38be0561e23c_mnhiat.jpg"
+     
+   },
+   {
+      cantidad:0,
+      id:3,
+      nombre:"libro3",
+      precio: 3000,
+      img: "https://res.cloudinary.com/dur9hgubk/image/upload/v1666292058/proyectoFinal/9788473565134-es_iqttuz.jpg"
+   },
+   {
+      cantidad:0,
+      id:4,
+      nombre:"libro4",
+      precio: 4000,
+      img: "https://res.cloudinary.com/dur9hgubk/image/upload/v1666292055/proyectoFinal/978607174058_sufvoy.jpg"
+   },
+   {
+      cantidad:0,
+      id:5,
+      nombre:"libro5",
+      precio: 5000,
+      img:"https://res.cloudinary.com/dur9hgubk/image/upload/v1666292054/proyectoFinal/1586923845_qi6fxj.webp"
+   },
+   {
+      cantidad:0,
+      id:6,
+      nombre:"libro6",
+      precio: 6000,
+      img:"https://res.cloudinary.com/dur9hgubk/image/upload/v1666292052/proyectoFinal/768c6835ef88e2fb91c1a72ac2411e6f_msma8k.png"
+   },
+];
+const carrito=[];
+productos.forEach((product)=>{
+   let content = document.createElement("div");
+   content.className="card"
+content.innerHTML = `
 
+<img src="${product.img}">
+<h3>${product.nombre }</h3>
+<p class="parrafo">${"$"+product.precio}</p>
+`;
+shopContent.append(content);
 
+let comprar=document.createElement("button");
+comprar.innerText="comprar";
+comprar.className="comprar";
+content.append(comprar);
 
+comprar.addEventListener("click", () =>{
+   product.cantidad=product.cantidad+1;
+   carrito.push({
+      cantidad:product.cantidad,
+      id: product.id,
+      img:product.img,
+      nombre:product.nombre,
+      precio:product.precio,
 
-if(libro==1 && cantidad<30){
-    libro1.mostrar();
-    libros.push(libro1);
+   });
+ 
+});
+});
+
+verCarrito.addEventListener("click",()=>{
+   modalContainer.innerHTML="";
    
-}else if(libro==2 && cantidad<20){
-libro2.mostrar();
-libros.push(libro2);
+   modalContainer.style.display="flex"; 
+   const modalHeader= document.createElement("div");
+   modalHeader.className="modal-header";
+   modalHeader.innerHTML=`
+   <h1 class="modal-header-title">carrito.</h1>
+   `;
+modalContainer.append(modalHeader);
 
-}else if(libro==3 && cantidad<10){
-libro3.mostrar();
-libros.push(libro3);
+const modalbutton= document.createElement("h1");
+modalbutton.className="modal-header-button";
+modalbutton.innerText="x";
 
-}else if(libro==4 && cantidad<70){
-libro4.mostrar();
-libros.push(libro4);
+modalbutton.addEventListener("click",() =>{
+   modalContainer.style.display="none"
+});
 
-}else if(libro==5 && cantidad<40){
-libro5.mostrar();
-libros.push(libro5);
+modalHeader.append(modalbutton);
 
-}else if(libro==6 && cantidad<33){
-libro6.mostrar();
-libros.push(libro6);
+carrito.forEach((product)=>{
+   console.log("se agrego: "+product.nombre);
+   let carritoContent=document.createElement("div");
+   carritoContent.className="modal-content";
+   carritoContent.innerHTML=`
+   <img src="${product.img}">
+<h3>${product.nombre }</h3>
+<p>${product.cantidad}</p>
+<p>${"$"+product.precio}</p>
+   `
+   const carritoJSON = JSON.stringify(carrito);
+   localStorage.setItem("productos", carritoJSON);
+   const usuarioEnls = JSON.parse(localStorage.getItem("carrito"));
+   console.log(carrito);
+   modalContainer.append(carritoContent);
+});
+const total= carrito.reduce((acc,el)=>acc + el.precio,0);
+const totalBuying=document.createElement("div");
+totalBuying.className="total-content";
+totalBuying.innerHTML=`total a pagar: ${total}$
+`
+modalContainer.append(totalBuying);
 
-}else{alert("opcion invalida supera el stock ")}
+const pagarbutton= document.createElement("h1");
+pagarbutton.className="modal-pagar-button";
+pagarbutton.innerText="pagar";
 
-let contador=prompt("quiere agregar mas productos? 1-si 2-no")
-if(contador==2){
-cobrar()
-}
-while(contador==1) {
- productos = Number(prompt("elija un producto 1-libro1 2-libro2 3-libro3 4-libro4 5-libro5 6-libro6" ))
- cantidad = Number(prompt("elija la cantidad de productos que quiera agregar"))
-switch(productos){
-   case 1:                        //SWITCH
-   total=total+libro1.precio*cantidad
-   console.log("libro 1 :$"+ libro1.precio);
-   console.log("cantidad de libros: "+ cantidad)
-   console.log("total :$"+ libro1.precio*cantidad)
-   libros.push(libro1);
-   break;
-   case 2:
-      total=total+libro2.precio*cantidad
-console.log("libro 2 :$"+ libro2.precio);
-console.log("cantidad de libros: "+ cantidad)
-console.log("total :$"+ libro2.precio*cantidad)
-libros.push(libro2);
-   break;
-   case 3: 
-   total=total+libro3.precio*cantidad       
-console.log("libro 3 :$"+ libro3.precio);
-console.log("cantidad de libros: "+ cantidad)
-console.log("total :$"+ libro3.precio*cantidad)
-libros.push(libro3);
-   break;
-   case 4:
-      total=total+ libro4.precio*cantidad
-console.log("libro 4 :$"+ libro4.precio);
-console.log("cantidad de libros: "+ cantidad)
-console.log("total :$"+  libro4.precio*cantidad)
-libros.push(libro4);
-   break;
-   case 5:
-      total=total+libro5.precio*cantidad
-console.log("libro  5:$"+ libro5.precio);
-console.log("cantidad de libros: "+ cantidad)
-console.log("total :$"+ libro5.precio*cantidad)
-libros.push(libro5);
-   break;
-   case 6:
-      total=total+libro6.precio*cantidad
-console.log("libro 6:$"+ libro6.precio);
-console.log("cantidad de libros: "+ cantidad)
-console.log("total :$"+ libro6.precio*cantidad)
-libros.push(libro6);
-   break;
-   default:
-       console.log("opcion invalida")  
-}
-contador=contador+0
-contador=prompt("quiere agregar mas productos? 1-si 2-no")
-if(contador==2){
-   cobrar()
-   }
-}
-function cobrar (){
-let datosTarjeta=0
-    let valorCuota=0
-    // let totalTotal=total+total2
-    let cuotas=0
-console.log("total de la compra: $"+(total))
-let pago= prompt("con que metodo desea pagar? tarjeta o transferencia")
-if(pago=="tarjeta"){
-let debOcred=prompt("debito o credito?")
-if(debOcred== "credito"){
-     cuotas = Number(prompt("cuantas cuotas? 3, 6 o 12"))
-    if(cuotas==3) {
-      valorCuota= total/cuotas
-     console.log("3 cuotas de: $"+ valorCuota)
-     datosTarjeta=Number(prompt("ingrese los 12 digitos de su tarjeta"))
-     if(datosTarjeta.length=11){
-        alert("tarjeta aprobada")
-     }else{
-        alert("tarjeta invalida")
-     }
-    }else if(cuotas==6){
-             valorCuota= total/cuotas
-     console.log("6 cuotas de: $"+ valorCuota)
-     datosTarjeta=Number(prompt("ingrese los 12 digitos de su tarjeta"))
-     if(datosTarjeta.length=11){
-        alert("tarjeta aprobada")
-     }else{
-        alert("tarjeta invalida")
-     }
-    }else if(cuotas ==12){
-             valorCuota= total/cuotas
-     console.log("12 cuotas de: $"+ valorCuota)
-     datosTarjeta=Number(prompt("ingrese los 12 digitos de su tarjeta"))
-     if(datosTarjeta.length=11){
-        alert("tarjeta aprobada")
-       
-     }else{
-        alert("tarjeta invalida")
-     }
-    }else{
-        alert("opcion invalida")
-    }
-}else if(debOcred=="debito"){
-     datosTarjeta=Number(prompt("ingrese los 12 digitos de su tarjeta"))
-     if(datosTarjeta.length=11){
-        alert("tarjeta aprobada")
-        
-     }else{
-        alert("tarjeta invalida")
-     }
-}else {
-    alert("opcion invalida")
-}
-}else if(pago=="transferencia"){
-alert("transferir al cbu 878775656455334")
-console.log("trasnferir al cbu 878775656455334")
-}else{
-    alert("opcion incorrecta")
-    
-}
-}
-console.log(libros)
+pagarbutton.addEventListener("click",() =>{
+   const pagando=document.createElement("div");
+   pagando.className="pagandoClass"
+   pagando.innerHTML=`
+   <h1>ingresar los 12 digitos de la tarjeta</h1>
+   <div class="input-group1 mb-3">
+  <input type="text" class="form-control" aria-label="Text input with checkbox">
+</div>
+<h1>ingresar codigo de seguridad</h1>
+<div class="input-group">
+  <input type="text" class="form-control" aria-label="Text input with radio button">
+</div>
+`;
+
+   modalContainer.append(pagando);
+   const finalizando=document.createElement("h1");
+finalizando.className="finalVenta"
+finalizando.innerHTML="terminar"
+finalizando.addEventListener("click",()=>{
+   Swal.fire({
+      position: 'top-center',
+      icon: 'success',
+      title: 'su pago fue realizado',
+      showConfirmButton: false,
+      timer: 1500
+    });
+   
+   
+
+});
+modalContainer.append(finalizando);
+   
+});
+
+modalContainer.append(pagarbutton);
+});
